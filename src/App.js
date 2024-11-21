@@ -1,22 +1,20 @@
 const express = require('express');
 
-const { loginHandler, getAuthenticate,  getUserAuthenticate, sendUserAuthenticate, errorHandler, wrongPathHandler } = require('./middlewares/auth');
+const { connectDB } = require('./config/database');
 
 const app = express();
 
-// app.use('/auth', getAuthenticate);
 
-app.post('/auth/login',loginHandler);
+connectDB().then(()=>{
+    console.log("Database Connected Sucessfully!");
+    app.listen(7670,()=>{
+        console.log("Server is listening to the request!");
+    });
+}).catch((err)=>{
+    console.log("Database cannot be connected!");
+});
 
-app.get('/auth',getAuthenticate, getUserAuthenticate);
 
-app.post('/auth', getAuthenticate, sendUserAuthenticate);
-
-app.use('/', errorHandler);
-
-app.use('/', wrongPathHandler);
-
-app.listen(7670);
 
 
 
