@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { loginHandler, getAuthenticate,  getUserAuthenticate, sendUserAuthenticate, errorHandler, wrongPathHandler } = require('../middlewares/auth');
+const { loginHandler, getAuthenticate,  getUserAuthenticate, sendUserAuthenticate, errorHandler, wrongPathHandler } = require('./middlewares/auth');
 
 const app = express();
 
