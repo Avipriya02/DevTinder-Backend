@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { getAuthenticate, getUserAuthenticate, sendUserAuthenticate, errorHandler } = require('../middlewares/auth');
+const { getAuthenticate, getUserAuthenticate, sendUserAuthenticate,errorHandler } = require('../middlewares/auth');
 
 const app = express();
 
@@ -12,7 +12,7 @@ app.post('/auth', sendUserAuthenticate);
 
 app.use('/auth',errorHandler);
 
-app.listen(7770);
+app.listen(7670);
 
 
 
