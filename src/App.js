@@ -1,16 +1,20 @@
 const express = require('express');
 
-const { getAuthenticate, getUserAuthenticate, sendUserAuthenticate,errorHandler } = require('../middlewares/auth');
+const { loginHandler, getAuthenticate,  getUserAuthenticate, sendUserAuthenticate, errorHandler, wrongPathHandler } = require('../middlewares/auth');
 
 const app = express();
 
-app.use('/auth', getAuthenticate);
+// app.use('/auth', getAuthenticate);
 
-app.get('/auth',getUserAuthenticate);
+app.post('/auth/login',loginHandler);
 
-app.post('/auth', sendUserAuthenticate);
+app.get('/auth',getAuthenticate, getUserAuthenticate);
 
-app.use('/auth',errorHandler);
+app.post('/auth', getAuthenticate, sendUserAuthenticate);
+
+app.use('/', errorHandler);
+
+app.use('/', wrongPathHandler);
 
 app.listen(7670);
 
