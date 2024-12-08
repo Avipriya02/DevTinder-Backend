@@ -72,6 +72,7 @@ requestRouter.post('/request/review/:status/:requestId', authUserMiddleware,asyn
     catch(err){
         res.status(400).send("Something Went Wrong!" + err.message);
     }
-})
+});
+
 
 module.exports = { requestRouter };
