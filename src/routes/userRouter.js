@@ -53,6 +53,16 @@ userRouter.get('/user/request/received', authUserMiddleware, async (req, res) =>
 
 userRouter.get('/user/feed', authUserMiddleware, async (req, res) => {
 
+    try{
+        const page = parseInt(req.query.page) || 1;
+
+    let limit = parseInt(req.query.limit) || 10;
+
+    limit = (limit > 1000)? 10: limit;
+
+    skip = parseInt((page - 1) * limit);
+
+
     const loggedinUser = req.user;
 
 
@@ -73,9 +83,13 @@ userRouter.get('/user/feed', authUserMiddleware, async (req, res) => {
     const usersTobeShowedInFeed = await User.find({
         $and: [{_id: {$nin: Array.from(hideConnectionsId)}},
              {_id:{$ne: loggedinUser._id}}]
-    }).select(USER_SAFE_DATA);
+    }).select(USER_SAFE_DATA).skip(skip).limit(limit);
 
     res.status(200).json({ "data": usersTobeShowedInFeed });
+    }
+    catch(err){
+        res.status(400).data(err.message)
+    }
 });
 
 module.exports = userRouter;
