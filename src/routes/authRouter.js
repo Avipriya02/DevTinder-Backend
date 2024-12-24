@@ -12,18 +12,20 @@ authRouter.post("/login", async (req, res) => {
     try {
         validateLoginAPI(req);
         const userInfo = await User.findOne({ emailId: req.body.emailId });
+        console.log(userInfo);
         if (!userInfo) {
             throw new Error("Invalid Credentials!");
         }
         const isPasswordCorrect = await userInfo.comparePassword(req.body.password);
+        console.log(isPasswordCorrect);
         if (!isPasswordCorrect)
             throw new Error("Invalid Credentials!");
         else {
             const token = await userInfo.getJWT();
             res.cookie("token", token, {
-                expires: new Date(Date.now() + 900000)
+                expires: new Date(Date.now() + 86400000)
             });
-            res.status(200).send("User Authenticated Successfully!");
+            res.status(200).json(userInfo);
         }
     }
     catch (err) {
@@ -39,7 +41,12 @@ authRouter.post("/signup", async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ firstName, lastName, emailId, password: hashedPassword,imageUrl, about,gender });
         await newUser.save();
-        res.status(200).send("User has been added successfully!");
+        const token = await newUser.getJWT();
+        res.cookie("token", token, {
+            expires: new Date(Date.now() + 86400000)
+        });
+        res.status(200).send(newUser);
+
     }
     catch (err) {
         res.status(400).send("User was not saved!" + err.message);

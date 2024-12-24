@@ -22,7 +22,6 @@ profileRouter.get('/profile/view',authUserMiddleware,async(req,res)=>{
 profileRouter.patch('/profile/edit',authUserMiddleware,async(req,res)=>{
     try{
         const isEditAllowed =  validateProfileEditAPI(req);
-        console.log(isEditAllowed);
         if(!isEditAllowed){
             throw new Error("The given fields are not allowed to update!");
         }
@@ -30,11 +29,12 @@ profileRouter.patch('/profile/edit',authUserMiddleware,async(req,res)=>{
         Object.keys(req.body).forEach((key)=>{
             user[key] = req.body[key];
         });
-        user.save();
+        await user.save();
         res.status(200).json({"message":`${user.firstName} profile data has been updated successfully!`,"data":user});
     }
     catch(err){
-        res.status(400).send("Something Went Wrong!" + err.message);
+        console.log(err);
+        res.status(400).send(err.message);
     }
 });
 

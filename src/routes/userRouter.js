@@ -19,12 +19,12 @@ userRouter.get('/user/connections', authUserMiddleware, async (req, res) => {
         })
             .populate("fromUserId", USER_SAFE_DATA)
             .populate("toUserId", USER_SAFE_DATA);
-
-        const data = findAllConnectionDetails.map((field) => {
-            if (field.fromUserId.toString() === loggedinUser._id.toString()) {
-                return field.toUserId;
+        // console.log(findAllConnectionDetails);
+        const data = findAllConnectionDetails.map((row) => {
+            if (row.fromUserId._id.toString() === loggedinUser._id.toString()) {
+                return row.toUserId;
             }
-            return field.fromUserId;
+            return row.fromUserId;
         })
 
         res.status(200).json({ "message": "Here are your all connection details:", data });
@@ -44,11 +44,7 @@ userRouter.get('/user/request/received', authUserMiddleware, async (req, res) =>
         return res.status(400).send("No connection requests received!");
     }
 
-    const data = receivedConnectionRequest.map((record) => {
-        return record.fromUserId;
-    })
-
-    res.status(200).json({ "message": "Here are the connections requests received", data });
+    res.status(200).json({ "message": "Here are the connections requests received", "data":receivedConnectionRequest });
 });
 
 userRouter.get('/user/feed', authUserMiddleware, async (req, res) => {

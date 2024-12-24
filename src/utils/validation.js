@@ -41,15 +41,18 @@ const validateLoginAPI = (req)=>{
 }
 
 const validateProfileEditAPI = (req)=>{
-    const editableFields = ['skills', 'about', 'photoUrl', 'age', 'firstName', 'lastName', 'gender'];
+    const editableFields = ['skills', 'about', 'imageUrl', 'age', 'firstName', 'lastName', 'gender'];
     if(!req || !req.body){
         throw new Error("There are no fields to update!");
     }
-    const body = req.body;
-    const isEditAllowed = Object.keys(body).every(
-        (field)=>{ return editableFields.includes(field);
-        })
+
+    const isEditAllowed = Object.keys(req.body).every((field) =>
+        editableFields.includes(field)
+      );
+    console.log(isEditAllowed);
+    
     return isEditAllowed;
+    
 }
 
 module.exports = { validateSignUpAPI,validateLoginAPI,validateProfileEditAPI };
