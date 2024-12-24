@@ -10,7 +10,7 @@ const cors = require('cors');
 const app = express();
 
 const options = {
-    origin: "http://localhost:5173",
+    origin: "https://papaya-lollipop-237413.netlify.app/",
     credentials: true
 };
 app.use(cors(options));
