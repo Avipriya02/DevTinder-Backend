@@ -11,7 +11,7 @@ const app = express();
 
 const options = {
     origin: "https://papaya-lollipop-237413.netlify.app",
-    credentials: true
+    credentials: true,
 };
 app.use(cors(options));
 
