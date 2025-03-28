@@ -10,7 +10,7 @@ const cors = require('cors');
 const app = express();
 
 const options = {
-    origin: "https://papaya-lollipop-237413.netlify.app",
+    origin: "https://devtinder-app.netlify.app",
     credentials: true,
 };
 app.use(cors(options));
