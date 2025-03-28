@@ -22,9 +22,14 @@ authRouter.post("/login", async (req, res) => {
             throw new Error("Invalid Credentials!");
         else {
             const token = await userInfo.getJWT();
-            res.cookie("token", token, {
-                expires: new Date(Date.now() + 86400000)
-            });
+res.cookie("token", token, {
+    httpOnly: true,      // Prevents JavaScript access to the cookie
+    secure: true,        // Required for HTTPS (Netlify needs this)
+    sameSite: "None",    // Needed for cross-origin cookies
+    path: "/",           // Ensures cookie is sent with every request
+    expires: new Date(Date.now() + 86400000) // 1 day expiration
+});
+
             res.status(200).json(userInfo);
         }
     }
@@ -42,9 +47,14 @@ authRouter.post("/signup", async (req, res) => {
         const newUser = new User({ firstName, lastName, emailId, password: hashedPassword,imageUrl, about,gender });
         await newUser.save();
         const token = await newUser.getJWT();
-        res.cookie("token", token, {
-            expires: new Date(Date.now() + 86400000)
-        });
+res.cookie("token", token, {
+    httpOnly: true,      // Prevents JavaScript access to the cookie
+    secure: true,        // Required for HTTPS (Netlify needs this)
+    sameSite: "None",    // Needed for cross-origin cookies
+    path: "/",           // Ensures cookie is sent with every request
+    expires: new Date(Date.now() + 86400000) // 1 day expiration
+});
+
         res.status(200).send(newUser);
 
     }
