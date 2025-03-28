@@ -9,7 +9,6 @@ const cors = require('cors');
 
 const app = express();
 
-const options = {
 app.use(cors({
     origin: "https://devtinder-app.netlify.app",
     credentials: true,
@@ -17,8 +16,6 @@ app.use(cors({
     allowedHeaders: "Content-Type,Authorization",
 }));
 
-};
-app.use(cors(options));
 
 app.use(express.json());
 
