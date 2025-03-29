@@ -64,7 +64,12 @@ res.cookie("token", token, {
 });
 
 authRouter.post('/logout', async (req, res) => {
-    res.clearCookie('token');
+   res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    path: "/"
+});
     res.status(200).send("Logged Out Successfully!");
 })
 
